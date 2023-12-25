@@ -1,0 +1,1 @@
+docker build . -t fastchat:latest -f docker/Dockerfile-ext

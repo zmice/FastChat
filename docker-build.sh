@@ -1,0 +1,1 @@
+docker build . -t fastchat:latest -f docker/Dockerfile --build-arg http_proxy=http://192.168.3.15:7890 --build-arg HTTPS_PROXY=http://192.168.3.15:7890
