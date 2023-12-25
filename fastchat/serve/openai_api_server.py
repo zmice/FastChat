@@ -670,7 +670,7 @@ async def generate_completion(payload: Dict[str, Any], worker_addr: str):
 
 @app.post("/v1/embeddings", dependencies=[Depends(check_api_key)])
 @app.post("/v1/engines/{model_name}/embeddings", dependencies=[Depends(check_api_key)])
-async def create_embeddings(request: EmbeddingsRequest, model_name: str = None):
+async def create_embeddings(request: EmbeddingsRequest, model_name: str = None, tiktoken_model_name: str = None):
     """Creates embeddings for the text"""
     if request.model is None:
         request.model = model_name
@@ -678,7 +678,10 @@ async def create_embeddings(request: EmbeddingsRequest, model_name: str = None):
     if error_check_ret is not None:
         return error_check_ret
 
-    request.input = process_input(request.model, request.input)
+    if tiktoken_model_name is None:
+        tiktoken_model_name = request.model
+
+    request.input = process_input(tiktoken_model_name, request.input)
 
     data = []
     token_num = 0
